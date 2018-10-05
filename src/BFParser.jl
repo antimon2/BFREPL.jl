@@ -228,10 +228,15 @@ end
 
 # BF Execute Loop
 function Base.run(bfi::BFInterpreter, bfle::BFLE)
-    while bfi.tape[bfi.ptr] != 0
-        for bf in bfle.lines
-            run(bfi, bf)
+    try
+        while bfi.tape[bfi.ptr] != 0
+            for bf in bfle.lines
+                run(bfi, bf)
+            end
         end
+    catch ex
+        isa(ex, BoundsError) && throw(ErrorWrapper(ex, Base.StackTraces.backtrace()))
+        rethrow()
     end
 end
 
