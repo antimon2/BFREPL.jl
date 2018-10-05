@@ -207,17 +207,23 @@ end
 
 # BF Execute Input
 function Base.run(bfi::BFInterpreter, ::BFR)
-    bfi.tape[bfi.ptr] = try
-        eof(bfi.inio) ? 0xff : read(bfi.inio, UInt8)
-    catch e
-        isa(e, EOFError) && return 0xff
-        rethrow(e)
+    try
+        bfi.tape[bfi.ptr] = eof(bfi.inio) ? 0xff : read(bfi.inio, UInt8)
+    catch ex
+        isa(ex, EOFError) && return 0xff
+        isa(ex, BoundsError) && throw(ErrorWrapper(ex, Base.StackTraces.backtrace()))
+        rethrow()
     end
 end
 
 # BF Execute Output
 function Base.run(bfi::BFInterpreter, ::BFW)
-    write(bfi.outio, bfi.tape[bfi.ptr])
+    try
+        write(bfi.outio, bfi.tape[bfi.ptr])
+    catch ex
+        isa(ex, BoundsError) && throw(ErrorWrapper(ex, Base.StackTraces.backtrace()))
+        rethrow()
+    end
 end
 
 # BF Execute Loop

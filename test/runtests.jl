@@ -69,4 +69,16 @@ end
     BFREPL.do_cmd(repl, "<+")
     result = String(take!(errio))
     @test startswith(result, "ERROR: BoundsError:")
+
+    BFREPL.do_cmd(repl, "<-")
+    result = String(take!(errio))
+    @test startswith(result, "ERROR: BoundsError:")
+
+    BFREPL.do_cmd(repl, "<.")
+    result = String(take!(errio))
+    @test startswith(result, "ERROR: BoundsError:")
+
+    BFREPL.do_cmd(MockREPL(IOBuffer("x"), outio, errio), "<,")
+    result = String(take!(errio))
+    @test startswith(result, "ERROR: BoundsError:")
 end
