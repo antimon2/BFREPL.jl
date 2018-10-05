@@ -1,0 +1,13 @@
+name = "BFREPL"
+uuid = "051b4cde-c4a9-11e8-16f0-4944cc387625"
+authors = ["antimon2 <antimon2.me@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+REPL = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
