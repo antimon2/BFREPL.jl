@@ -15,7 +15,8 @@ function do_cmd(repl, input::String)
     catch ex
         err_stream = isa(terminal, REPL.Terminals.TTYTerminal) ? terminal.err_stream : stderr
         if isa(ex, BFParser.ParseError)
-            Base.display_error(err_stream, ErrorException(ex.msg), ex.stacktrace)
+            print(err_stream, "ERROR: ")
+            Base.showerror(IOContext(err_stream, :limit => true), ErrorException(ex.msg), ex.stacktrace)
         elseif isa(ex, BFParser.ErrorWrapper)
             Base.display_error(err_stream, ex.err, ex.backtraces)
         elseif !isa(ex, InterruptException)
