@@ -7,13 +7,13 @@ Brainf**k REPL in Julia.
 On Pkg REPL-mode:
 
 ```jl
-(v1.0) pkg> add https://github.com/antimon2/BFREPL.jl.git
+(@v1.4) pkg> add https://github.com/antimon2/BFREPL.jl.git#for_julia_v14
 ```
 
 And edit (or add 1 line to) `~/.julia/config/startup.jl` as below:
 
 ```
-using Pkg; haskey(Pkg.installed(), "BFREPL") && using BFREPL
+isnothing(Base.locate_package(Base.PkgId(Base.UUID("051b4cde-c4a9-11e8-16f0-4944cc387625"), "BFREPL"))) || using BFREPL
 ```
 
 ## Example
